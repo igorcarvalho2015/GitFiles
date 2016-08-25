@@ -1,4 +1,25 @@
-#CREATE DOMAIN MAT AS INT(4) (	CHECK (VALUE > 0000 AND VALUE < 9999));
+/*
+SCRIPT DE INICIALIZAÇÃO DE BANCO
+
+SERÃO CRIADOS:
+
+* TABELAS: CARGO, FUNCIONÁRIO, USUÁRIO & LOGS
+* PROCEDIMENTOS: USER_IN & Func_in
+* GATILHOS: tgAltStatus & tgLogAlt
+* VISÕES: RelEmpregAtivo & RelAcoeUser
+* FUNÇÕES: valida_Sal
+
+-------------------------
+|Autor: Igor Carvalho	|
+|Versão: 3.0			|
+|Ultima Alteração: 23/08|
+|DB: MySQL				|
+-------------------------
+
+
+*/
+
+
 CREATE DATABASE TCC;
 USE TCC;
 
@@ -44,7 +65,7 @@ CREATE TABLE Logs (
     PRIMARY KEY (idLog),
 	FOREIGN KEY (id_Usuario) REFERENCES Usuario (idUsuario) ON DELETE SET NULL);
 	
-	-- ****************** PROCEDURES, VIEWS E TRIGGERS ******************
+	/* ***************** PROCEDURES, VIEWS E TRIGGERS ******************/
 
 	
 -- *** TRIGGER ***	
@@ -52,16 +73,6 @@ DELIMITER $$
 CREATE TRIGGER tgAltStatus AFTER UPDATE ON Funcionario FOR EACH ROW
 BEGIN
 UPDATE usuario SET btAtivo = 0 WHERE id_Func = OLD.idFuncionario;
-END$$
-DELIMITER ;
-
-
-DELIMITER $$
-CREATE TRIGGER tgLogAlt AFTER UPDATE ON Funcionario FOR EACH ROW
-BEGIN
-		
-		INSERT INTO Logs VALUES (NULL,concat(old),getdate(),
-		UPDATE usuario SET btAtivo = 0 WHERE id_Func = OLD.idFuncionario;
 END$$
 DELIMITER ;
 
@@ -120,10 +131,6 @@ ALTER TABLE Funcionario  FOREIGN KEY (id_Cargo) REFERENCES Cargo (idCargo) ON DE
 ALTER TABLE Cargo MODIFY strDescricao VARCHAR(60);
 ALTER TABLE Funcionario MODIFY dtNascimento DATE NOT NULL;
 ALTER TABLE Funcionario MODIFY btAtivo INT NOT NULL;*/
-
-
-
---------------------------------
 
 delimiter $$
 CREATE TRIGGER tgLogAlt AFTER UPDATE ON Funcionario FOR EACH ROW
